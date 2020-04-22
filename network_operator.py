@@ -5,7 +5,9 @@ import time
 import torch
 import tqdm
 
+
 class ModelOperator:
+    # todo accuracy ve epoch historyisine tutacak bi liste konulacak daha sonra analiz icin plot ettirelecek
     def __init__(self, model, criterion, tr_loader, val_loader, optimizer, num_epoch, patience, batch_size,
                  lr_scheduler=None):
         self.model = model
@@ -30,6 +32,7 @@ class ModelOperator:
             self.model = self.model.cuda()
 
     def train(self):
+
         pbar = tqdm.tqdm(desc= "Epoch 0, phase: Train",postfix="train_loss : ?, train_acc: ?")
         start = time.time()
         for i in range(self.num_epoch):
@@ -123,6 +126,7 @@ class ModelOperator:
 
         with torch.no_grad():
             total_acc = 0
+            self.model.eval()
             for images, labels in test_loader:
                 if self.model.use_cuda:
                     # images, labels = (Variable(images)).cuda(), (Variable(labels)).cuda()

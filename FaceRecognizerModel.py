@@ -43,6 +43,15 @@ class FaceRecognizerModel(nn.Module):
         self.final_layer = nn.Linear(in_features=300, out_features=class_number)
         # todo log softmax layer getirilebilir
 
+    def get_learning_params(self):
+        params_to_learn = []
+        for name, param in self.named_parameters():
+            if param.requires_grad:
+                # print (name, param.data) #debuging
+                params_to_learn.append(param)
+
+        return params_to_learn
+
     def forward(self, inp):
         if self.use_alexnet_extractor:
             inp = self.feature_extractor(inp)
@@ -73,13 +82,22 @@ class FaceRecognizerVisualizeModel(nn.Module):
         self.hidden_fc_layer_2 = nn.Linear(in_features=300, out_features=800)
         self.final_layer = nn.Linear(in_features=800, out_features=class_number)
 
+    def get_learning_params(self):
+        params_to_learn = []
+        for name, param in self.named_parameters():
+            if param.requires_grad:
+                # print (name, param.data) #debuging
+                params_to_learn.append(param)
+
+        return params_to_learn
+
     def forward(self, inp):
         if self.use_alexnet_extractor:
             inp = self.feature_extractor(inp)
 
         inp = self.flatten(inp)
         feature1 = torch.nn.functional.relu(self.hidden_fc_layer(inp))
-        feature2 = torch.nn.functional.relu(self.hidden_fc_layer(feature1))
+        feature2 = torch.nn.functional.relu(self.hidden_fc_layer_2(feature1))
         x = self.final_layer(feature2)
         return x
 
@@ -91,6 +109,7 @@ class FaceRecognizerAlexNetModel(nn.Module):
 
         self.use_cuda = use_cuda
 
+        # todo testlerde son layer yerine sin bir kac layerda kullanilabilir
         self.alexnet = models.alexnet(pretrained=True)
         for param in self.alexnet.parameters():
             param.requires_grad = False
@@ -98,9 +117,11 @@ class FaceRecognizerAlexNetModel(nn.Module):
 
     def get_learning_params(self):
         params_to_learn = []
-        for name, param in self.alexnet.named_parameters():
+        for name, param in self.named_parameters():
             if param.requires_grad:
+                # print (name, param.data) #debuging
                 params_to_learn.append(param)
+
         return params_to_learn
 
     def forward(self, inp):

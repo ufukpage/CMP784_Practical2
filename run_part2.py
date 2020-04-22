@@ -15,7 +15,7 @@ NUM_EPOCHS = 1
 PATIENCE = 5
 ALEXNET_EXTRACTOR = False
 FINETUNE_ALEXNET = False
-
+VISUALIZE = True
 
 if __name__ == "__main__":
     # torch.backends.cudnn.benchmark = True
@@ -23,15 +23,21 @@ if __name__ == "__main__":
     train_loader, val_loader = get_train_data_loader(batch_size=BATCH_SIZE,
                                                      is_alexnet_used=ALEXNET_EXTRACTOR, validate=True)
 
+    number_of_class = len(train_loader.dataset.classes)
+
     if FINETUNE_ALEXNET:
-        model = FaceRecognizerAlexNetModel(class_number=len(train_loader.dataset.classes), use_cuda=USE_CUDA)
+        model = FaceRecognizerAlexNetModel(class_number=number_of_class, use_cuda=USE_CUDA)
         ALEXNET_EXTRACTOR = True    # otomatik true olmasi lazim cunku data augmentation buna gore yapiliyor
-        optimizer = optim.Adam(model.get_learning_params(), lr=LR)
+        #optimizer = optim.Adam(model.get_learning_params(), lr=LR)
     else:
-        model = FaceRecognizerModel(class_number=len(train_loader.dataset), use_cuda=USE_CUDA,
+        model = FaceRecognizerModel(class_number=number_of_class, use_cuda=USE_CUDA,
                                     use_alexnet_extractor=ALEXNET_EXTRACTOR)
 
-        optimizer = optim.Adam(model.parameters(), lr=LR)
+    if VISUALIZE:
+        model = FaceRecognizerVisualizeModel(class_number=number_of_class, use_cuda=USE_CUDA,
+                                             use_alexnet_extractor=ALEXNET_EXTRACTOR)
+
+    optimizer = optim.Adam(model.get_learning_params(), lr=LR)
     criterion = CrossEntropyLoss()
     operator = ModelOperator(model, criterion, train_loader, val_loader, optimizer, num_epoch=NUM_EPOCHS,
                              patience=PATIENCE, batch_size=BATCH_SIZE, lr_scheduler=None)
@@ -48,34 +54,27 @@ if __name__ == "__main__":
     operator.test(test_loader)
 
     # Visualize feature maps
+    ###################################################
+    ##### Layer ciktilari i yoksa layer weigtleri mi gosterilecek? Su anda layer weigtleri gosteriliyor
+    # activations = {}
+    # model.hidden_fc_layer_2.register_forward_hook(get_activation('hidden_fc_layer_2'))
 
+    data, _ = val_loader.dataset[0]
+    data.unsqueeze_(0)
+
+    model.eval()
+    output = model(data.cuda())
+
+    """"
+    act = activations['hidden_fc_layer_2']
+    plt.imshow(act.cpu().numpy()) # matshow
     def get_activation(name):
         def hook(model, input, output):
             activations[name] = output.detach()
         return hook
-
-    activations = {}
-    model.hidden_fc_layer.register_forward_hook(get_activation('hidden_fc_layer'))
-
-    data, _ = test_loader.dataset[0]
-    # data.unsqueeze_(0)
-    output = model(data.cuda())
-
-    act = activations['hidden_fc_layer']
-    #fig, axarr = plt.subplots(act.size(0))
-    #for idx in range(act.size(0)):
-
-    plt.matshow(act.cpu().numpy())
+    """""
+    plt.matshow(model.hidden_fc_layer_2.weight.data.cpu().numpy())  # matshow ve imshow
     plt.show()
 
     ##############################################333
-    # plt.matshow(act.cpu())
 
-    # fig, axarr = plt.subplots(act.size(0))
-    # for idx in range(act.size(0)):
-    #     axarr[idx].imshow(act[idx].squeeze().cpu().numpy())
-
-
-    #fig, axarr = plt.subplots(act.size(0))
-
-    #plt.matshow(activations['hidden_fc_layer'].cpu())
