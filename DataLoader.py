@@ -73,10 +73,10 @@ def __get_data_loader(phases, batch_size, is_alexnet_used=False):
     root_dataset_path = os.path.join(current_path, "dataset_part2")
 
     if is_alexnet_used:
-        image_datasets = {x: datasets.ImageFolder(os.path.join(root_dataset_path), imagenet_transform(x))
+        image_datasets = {x: datasets.ImageFolder(os.path.join(root_dataset_path, x), imagenet_transform(x))
                           for x in phases}
     else:
-        image_datasets = {x: datasets.ImageFolder(os.path.join(root_dataset_path), simple_image_transform(x))
+        image_datasets = {x: datasets.ImageFolder(os.path.join(root_dataset_path, x), simple_image_transform(x))
                           for x in phases}
 
     dataloaders = [torch.utils.data.DataLoader(image_datasets[x], batch_size=batch_size,

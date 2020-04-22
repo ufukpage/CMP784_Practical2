@@ -7,13 +7,13 @@ from torch import optim
 import matplotlib.pyplot as plt
 
 MODEL_SAVE_PATH = "model1_part2.tar"
-LR = 1e-4
+LR = 1e-3
 Momentum = 0.9 # If you use SGD with momentum
 BATCH_SIZE = 16
 USE_CUDA = True
 NUM_EPOCHS = 1
-PATIENCE = -1
-ALEXNET_EXTRACTOR = True        #Alexnet kullaninca bunun true olmasi gerekli transformationlar ona gore oluyor argumanlari ayarlarken otomatik bunu dusun
+PATIENCE = 5
+ALEXNET_EXTRACTOR = True        # Alexnet kullaninca bunun true olmasi gerekli transformationlar ona gore oluyor argumanlari ayarlarken otomatik bunu dusun
 
 if __name__ == "__main__":
     # torch.backends.cudnn.benchmark = True
@@ -21,11 +21,10 @@ if __name__ == "__main__":
     train_loader, val_loader = get_train_data_loader(batch_size=BATCH_SIZE,
                                                      is_alexnet_used=ALEXNET_EXTRACTOR, validate=True)
 
-    # model = FaceRecognizerModel(class_number=len(train_loader.dataset), use_cuda=USE_CUDA,
-    #                            use_alexnet_extractor=ALEXNET_EXTRACTOR)
+    model = FaceRecognizerModel(class_number=len(train_loader.dataset), use_cuda=USE_CUDA,
+                                use_alexnet_extractor=ALEXNET_EXTRACTOR)
 
-    model = FaceRecognizerAlexNetModel(class_number=len(train_loader.dataset), use_cuda=USE_CUDA)
-
+    #model = FaceRecognizerAlexNetModel(class_number=len(train_loader.dataset.classes), use_cuda=USE_CUDA)
 
     optimizer = optim.Adam(model.parameters(), lr=LR)
     criterion = CrossEntropyLoss()
@@ -40,7 +39,7 @@ if __name__ == "__main__":
     }, MODEL_SAVE_PATH
     )
 
-    test_loader = get_test_data_loader(batch_size=1, is_alexnet_used=ALEXNET_EXTRACTOR)[0] # alexnet finetuninde batch size 1 olmali
+    test_loader = get_test_data_loader(batch_size=BATCH_SIZE, is_alexnet_used=ALEXNET_EXTRACTOR)[0] # alexnet finetuninde batch size 1 olmali
     operator.test(test_loader)
 
     # Visualize feature maps

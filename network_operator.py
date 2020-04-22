@@ -139,5 +139,5 @@ class ModelOperator:
                 #test_loss += loss.item()
                 total_acc += torch.sum(predictions == labels).item()
 
-            print('Accuracy of the network on the 10000 test images: %d %%' % (
+            print('Accuracy of the network on the test images: %d %%' % (
                 100 * total_acc / len(test_loader.dataset)))
