@@ -14,6 +14,8 @@ USE_CUDA = True
 NUM_EPOCHS = 1
 PATIENCE = 5
 ALEXNET_EXTRACTOR = True        # Alexnet kullaninca bunun true olmasi gerekli transformationlar ona gore oluyor argumanlari ayarlarken otomatik bunu dusun
+FINETUNE_ALEXNET = False
+
 
 if __name__ == "__main__":
     # torch.backends.cudnn.benchmark = True
@@ -21,10 +23,12 @@ if __name__ == "__main__":
     train_loader, val_loader = get_train_data_loader(batch_size=BATCH_SIZE,
                                                      is_alexnet_used=ALEXNET_EXTRACTOR, validate=True)
 
-    model = FaceRecognizerModel(class_number=len(train_loader.dataset), use_cuda=USE_CUDA,
-                                use_alexnet_extractor=ALEXNET_EXTRACTOR)
-
-    #model = FaceRecognizerAlexNetModel(class_number=len(train_loader.dataset.classes), use_cuda=USE_CUDA)
+    if FINETUNE_ALEXNET:
+        model = FaceRecognizerAlexNetModel(class_number=len(train_loader.dataset.classes), use_cuda=USE_CUDA)
+        ALEXNET_EXTRACTOR = True
+    else:
+        model = FaceRecognizerModel(class_number=len(train_loader.dataset), use_cuda=USE_CUDA,
+                                    use_alexnet_extractor=ALEXNET_EXTRACTOR)
 
     optimizer = optim.Adam(model.parameters(), lr=LR)
     criterion = CrossEntropyLoss()
