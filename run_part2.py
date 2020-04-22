@@ -13,7 +13,7 @@ BATCH_SIZE = 16
 USE_CUDA = True
 NUM_EPOCHS = 1
 PATIENCE = 5
-ALEXNET_EXTRACTOR = True        # Alexnet kullaninca bunun true olmasi gerekli transformationlar ona gore oluyor argumanlari ayarlarken otomatik bunu dusun
+ALEXNET_EXTRACTOR = False
 FINETUNE_ALEXNET = False
 
 
@@ -25,12 +25,13 @@ if __name__ == "__main__":
 
     if FINETUNE_ALEXNET:
         model = FaceRecognizerAlexNetModel(class_number=len(train_loader.dataset.classes), use_cuda=USE_CUDA)
-        ALEXNET_EXTRACTOR = True
+        ALEXNET_EXTRACTOR = True    # otomatik true olmasi lazim cunku data augmentation buna gore yapiliyor
+        optimizer = optim.Adam(model.get_learning_params(), lr=LR)
     else:
         model = FaceRecognizerModel(class_number=len(train_loader.dataset), use_cuda=USE_CUDA,
                                     use_alexnet_extractor=ALEXNET_EXTRACTOR)
 
-    optimizer = optim.Adam(model.parameters(), lr=LR)
+        optimizer = optim.Adam(model.parameters(), lr=LR)
     criterion = CrossEntropyLoss()
     operator = ModelOperator(model, criterion, train_loader, val_loader, optimizer, num_epoch=NUM_EPOCHS,
                              patience=PATIENCE, batch_size=BATCH_SIZE, lr_scheduler=None)
@@ -43,27 +44,29 @@ if __name__ == "__main__":
     }, MODEL_SAVE_PATH
     )
 
-    test_loader = get_test_data_loader(batch_size=BATCH_SIZE, is_alexnet_used=ALEXNET_EXTRACTOR)[0] # alexnet finetuninde batch size 1 olmali
+    test_loader = get_test_data_loader(batch_size=BATCH_SIZE, is_alexnet_used=ALEXNET_EXTRACTOR)[0]
     operator.test(test_loader)
 
     # Visualize feature maps
 
-    """""
     def get_activation(name):
         def hook(model, input, output):
             activations[name] = output.detach()
         return hook
+
     activations = {}
     model.hidden_fc_layer.register_forward_hook(get_activation('hidden_fc_layer'))
+
     data, _ = test_loader.dataset[0]
-    data.unsqueeze_(0)
+    # data.unsqueeze_(0)
     output = model(data.cuda())
+
     act = activations['hidden_fc_layer']
     #fig, axarr = plt.subplots(act.size(0))
     #for idx in range(act.size(0)):
+
     plt.matshow(act.cpu().numpy())
     plt.show()
-    """""
 
     ##############################################333
     # plt.matshow(act.cpu())

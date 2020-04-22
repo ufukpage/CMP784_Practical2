@@ -3,6 +3,8 @@ import torch.nn as nn
 
 import matplotlib.pyplot as plt
 
+# todo odevi gonderirken bu demoyu silicez
+
 
 activations = {}
 def get_activation(name):
