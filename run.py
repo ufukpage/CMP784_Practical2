@@ -47,10 +47,10 @@ def get_transform():
     t = {
         'train': transforms.Compose([
             transforms.Resize(50),
-            # transforms.RandomHorizontalFlip(),
-            # transforms.RandomVerticalFlip(),
-            # transforms.ColorJitter(brightness=0.1, contrast=0.1),
-            # transforms.RandomAffine(0, translate=(0.1, 0.1)),
+            transforms.RandomHorizontalFlip(),
+            transforms.RandomVerticalFlip(),
+            transforms.ColorJitter(brightness=0.1, contrast=0.1),
+            transforms.RandomAffine(0, translate=(0.1, 0.1)),
             transforms.ToTensor(),
             transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])
         ]),
@@ -88,7 +88,7 @@ def run(model_save_path, LR, momentum, batch_size, pooling,
 
     scheduler = optim.lr_scheduler.CosineAnnealingLR(optimizer, scheduler_step)
     operator = ModelOperator(model, criterion, train_loader, val_loader, optimizer, num_epoch=num_epochs, patience=patience,
-                              batch_size=batch_size, lr_scheduler=None)
+                              batch_size=batch_size, lr_scheduler=scheduler)
     best_model = operator.train()
 
     torch.save({
