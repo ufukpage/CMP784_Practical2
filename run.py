@@ -93,6 +93,7 @@ def run(model_save_path, LR, momentum, batch_size, pooling,
     torch.save({
         'epoch': num_epochs,
         'model_state_dict': best_model.state_dict(),
+        'model': model,
         'optimizer_state_dict': optimizer.state_dict(),
         'loss': criterion,
         'history': operator.get_training_history()
