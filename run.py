@@ -14,13 +14,13 @@ LR = 1e-4
 Momentum = 0.9 # If you use SGD with momentum
 BATCH_SIZE = 512
 USE_CUDA = True
-POOLING = False
+POOLING = True
 NUM_EPOCHS = 200
 PATIENCE = -1
 TRAIN_PERCENT = 0.8
 VAL_PERCENT = 0.2
 NUM_ARTISTS = 11
-DATA_PATH = "CMP784_Practical2/art_data/artists"
+DATA_PATH = "./art_data/artists"
 ImageFile.LOAD_TRUNCATED_IMAGES = True # Do not change this
 
 
