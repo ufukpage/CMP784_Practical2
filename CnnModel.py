@@ -15,7 +15,7 @@ class SimpleCNN(torch.nn.Module):
         self.drop_out2 = torch.nn.Dropout2d(0.50)
 
         if pooling:
-            self.fully_connected_layer = nn.Linear(1024,64)
+            self.fully_connected_layer = nn.Linear(12544,64)
             self.final_layer = nn.Linear(64,11)
         else:
             self.fully_connected_layer = nn.Linear(1600, 64)
