@@ -87,7 +87,7 @@ def run(model_save_path, LR, momentum, batch_size, pooling,
 
     scheduler = optim.lr_scheduler.CosineAnnealingLR(optimizer, scheduler_step)
     operator = ModelOperator(model, criterion, train_loader, val_loader, optimizer, num_epoch=num_epochs, patience=patience,
-                              batch_size=batch_size, lr_scheduler=scheduler)
+                              batch_size=batch_size, lr_scheduler=None)
     best_model = operator.train()
 
     torch.save({
