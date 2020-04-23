@@ -72,7 +72,7 @@ def run(model_save_path, LR, momentum, batch_size, pooling,
     data,labels = load_artist_data()
     model = SimpleCNN(use_cuda=USE_CUDA, pooling=pooling)
     # optimizer = optim.Adam(model.parameters(), lr=LR,weight_decay=5e-3)
-    optimizer = optim.Adam(model.parameters(), lr=LR,weight_decay=1e-3)
+    optimizer = optim.Adam(model.parameters(), lr=LR,weight_decay=5e-3)
     transforms = get_transform()
     train_dataset = LoaderClass(data,labels,"train",transforms["train"])
     valid_dataset = LoaderClass(data,labels,"val",transforms["val"])
