@@ -7,38 +7,40 @@ from torch import optim
 import matplotlib.pyplot as plt
 
 
+def run(model_save_path = "model2.tar", LR=1e-4, momentum=0.9, batch_size=512, alex_net_extractor = False,
+        fine_tune_alexnet = True, visualize=True,
+        num_epochs=200, patience=-1, scheduler_step=10, model_load_path=None,
+        USE_CUDA=True):
 
-def run():
     # torch.backends.cudnn.benchmark = True
 
-    train_loader, val_loader = get_train_data_loader(batch_size=BATCH_SIZE,
-                                                     is_alexnet_used=ALEXNET_EXTRACTOR, validate=True)
+    train_loader, val_loader = get_train_data_loader(batch_size=batch_size,
+                                                     is_alexnet_used=alex_net_extractor, validate=True)
 
     number_of_class = len(train_loader.dataset.classes)
 
-    if FINETUNE_ALEXNET:
+    if fine_tune_alexnet:
         model = FaceRecognizerAlexNetModel(class_number=number_of_class, use_cuda=USE_CUDA)
         ALEXNET_EXTRACTOR = True    # otomatik true olmasi lazim cunku data augmentation buna gore yapiliyor
-        #optimizer = optim.Adam(model.get_learning_params(), lr=LR)
     else:
         model = FaceRecognizerModel(class_number=number_of_class, use_cuda=USE_CUDA,
-                                    use_alexnet_extractor=ALEXNET_EXTRACTOR)
+                                    use_alexnet_extractor=alex_net_extractor)
 
-    if VISUALIZE:
+    if visualize:
         model = FaceRecognizerVisualizeModel(class_number=number_of_class, use_cuda=USE_CUDA,
-                                             use_alexnet_extractor=ALEXNET_EXTRACTOR)
+                                             use_alexnet_extractor=alex_net_extractor)
 
     optimizer = optim.Adam(model.get_learning_params(), lr=LR)
     criterion = CrossEntropyLoss()
-    operator = ModelOperator(model, criterion, train_loader, val_loader, optimizer, num_epoch=NUM_EPOCHS,
-                             patience=PATIENCE, batch_size=BATCH_SIZE, lr_scheduler=None)
+    operator = ModelOperator(model, criterion, train_loader, val_loader, optimizer, num_epoch=num_epochs,
+                             patience=patience, batch_size=batch_size, lr_scheduler=None)
     best_model = operator.train()
     torch.save({
-        'epoch': NUM_EPOCHS,
+        'epoch': num_epochs,
         'model_state_dict': best_model.state_dict(),
         'optimizer_state_dict': optimizer.state_dict(),
         'loss': criterion
-    }, MODEL_SAVE_PATH
+    }, model_save_path
     )
 
     torch.save({
@@ -53,7 +55,8 @@ def run():
     if model_load_path is not None:
         model_state = torch.load(model_save_path)
         # todo analiz kismi yazilacak
-    test_loader = get_test_data_loader(batch_size=BATCH_SIZE, is_alexnet_used=ALEXNET_EXTRACTOR)[0]
+
+    test_loader = get_test_data_loader(batch_size=batch_size, is_alexnet_used=alex_net_extractor)[0]
     operator.test(test_loader)
 
     # Visualize feature maps

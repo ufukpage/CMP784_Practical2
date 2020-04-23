@@ -37,16 +37,20 @@ def load_artist_data():
     val_labels = labels[0:val_size+1]
     train_labels = labels[val_size+1::]
     print(val_labels)
-    data_dict = {"train_data":train_data,"val_data":val_data}
-    label_dict = {"train_labels":np.array(train_labels),"val_labels":np.array(val_labels)}
+    data_dict = {"train_data": train_data,"val_data": val_data}
+    label_dict = {"train_labels": np.array(train_labels), "val_labels": np.array(val_labels)}
 
-    return data_dict,label_dict
+    return data_dict, label_dict
 
 
 def get_transform():
     t = {
         'train': transforms.Compose([
             transforms.Resize(50),
+            transforms.RandomHorizontalFlip(),
+            transforms.RandomVerticalFlip(),
+            transforms.ColorJitter(brightness=0.1, contrast=0.1),
+            transforms.RandomAffine(translate=0.1),
             transforms.ToTensor(),
             transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])
         ]),
@@ -59,8 +63,8 @@ def get_transform():
     return t
 
 
-def run(model_save_path ,LR, momentum ,batch_size ,pooling ,
-        num_epochs,patience ,path, scheduler_step=10, model_load_path=None):
+def run(model_save_path, LR, momentum, batch_size, pooling,
+        num_epochs, patience, path, scheduler_step=10, model_load_path=None):
 
     global DATA_PATH
     DATA_PATH = path
