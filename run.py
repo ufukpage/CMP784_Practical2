@@ -67,7 +67,7 @@ def run(model_save_path = "model1.tar",LR = 1e-4, momentum = 0.9,batch_size = 51
     # torch.backends.cudnn.benchmark = True
     data,labels = load_artist_data()
     model = SimpleCNN(use_cuda=USE_CUDA, pooling=pooling)
-    optimizer = optim.Adam(model.parameters(), lr=LR,weight_decay=1e-3)
+    optimizer = optim.SGD(model.parameters(), lr=LR,weight_decay=1e-3,momentum=momentum,nesterov=True)
     transforms = get_transform()
     train_dataset = LoaderClass(data,labels,"train",transforms["train"])
     valid_dataset = LoaderClass(data,labels,"val",transforms["val"])
