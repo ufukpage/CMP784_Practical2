@@ -9,20 +9,10 @@ import numpy as np
 import os
 from PIL import Image, ImageFile
 
-MODEL_SAVE_PATH = "model1.tar"
-LR = 1e-4
-Momentum = 0.9 # If you use SGD with momentum
-BATCH_SIZE = 512
-USE_CUDA = True
-POOLING = True
-NUM_EPOCHS = 200
-PATIENCE = -1
-TRAIN_PERCENT = 0.8
-VAL_PERCENT = 0.2
-NUM_ARTISTS = 11
-DATA_PATH = "./art_data/artists"
-ImageFile.LOAD_TRUNCATED_IMAGES = True # Do not change this
 
+NUM_ARTISTS = 11
+USE_CUDA = True
+ImageFile.LOAD_TRUNCATED_IMAGES = True # Do not change this
 
 def load_artist_data():
     data = []
@@ -53,12 +43,8 @@ def load_artist_data():
     return data_dict,label_dict
 
 
-if __name__ == "__main__":
-    # torch.backends.cudnn.benchmark = True
-    data,labels = load_artist_data()
-    model = SimpleCNN(use_cuda=USE_CUDA, pooling=POOLING)
-    optimizer = optim.Adam(model.parameters(), lr=LR)
-    transforms = {
+def get_transform():
+    t = {
         'train': transforms.Compose([
             transforms.Resize(50),
             transforms.ToTensor(),
@@ -70,25 +56,37 @@ if __name__ == "__main__":
             transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])
         ]),
         }
+    return t
+
+
+def run(model_save_path = "model1.tar",LR = 1e-4,momentum = 0.9,batch_size = 512,pooling = True,
+        num_epochs = 200,patience = -1,path = "./art_data/artists"):
+    global DATA_PATH
+    DATA_PATH = path
+    # torch.backends.cudnn.benchmark = True
+    data,labels = load_artist_data()
+    model = SimpleCNN(use_cuda=USE_CUDA, pooling=pooling)
+    optimizer = optim.Adam(model.parameters(), lr=LR)
+    transforms = get_transform()
     train_dataset = LoaderClass(data,labels,"train",transforms["train"])
     valid_dataset = LoaderClass(data,labels,"val",transforms["val"])
 
     train_loader = torch.utils.data.DataLoader(train_dataset,
-                                               batch_size=BATCH_SIZE,
+                                               batch_size=batch_size,
                                                shuffle=True, num_workers=4, pin_memory=True)
     val_loader = torch.utils.data.DataLoader(valid_dataset,
-                                             batch_size=BATCH_SIZE,
+                                             batch_size=batch_size,
                                              shuffle=True, num_workers=4, pin_memory=True)
 
     criterion = CrossEntropyLoss()
-    trainer_m = ModelOperator(model, criterion, train_loader, val_loader, optimizer, num_epoch=NUM_EPOCHS, patience=PATIENCE,
-                              batch_size=BATCH_SIZE, lr_scheduler=None)
+    trainer_m = ModelOperator(model, criterion, train_loader, val_loader, optimizer, num_epoch=num_epochs, patience=patience,
+                              batch_size=batch_size, lr_scheduler=None)
     best_model = trainer_m.train()
 
     torch.save({
-        'epoch': NUM_EPOCHS,
+        'epoch': num_epochs,
         'model_state_dict': best_model.state_dict(),
         'optimizer_state_dict': optimizer.state_dict(),
         'loss': criterion
-    }, MODEL_SAVE_PATH
+    }, model_save_path
     )
