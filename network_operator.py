@@ -163,4 +163,7 @@ class ModelOperator:
                 100 * total_acc / len(test_loader.dataset)))
 
     def get_training_history(self):
-        return [self.train_accuracies, self.train_losses, self.val_accuracies, self.val_losses]
+        return {"training_acc": self.train_accuracies,
+                "training_loss": self.train_losses,
+                "val_acc": self.val_accuracies,
+                "val_loss": self.val_losses}

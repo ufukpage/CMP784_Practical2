@@ -60,7 +60,8 @@ def get_transform():
 
 
 def run(model_save_path = "model1.tar",LR = 1e-4, momentum = 0.9,batch_size = 512,pooling = True,
-        num_epochs = 200,patience = -1,path = "./art_data/artists"):
+        num_epochs = 200,patience = -1,path = "./art_data/artists", model_load_path=None):
+
     global DATA_PATH
     DATA_PATH = path
     # torch.backends.cudnn.benchmark = True
@@ -87,8 +88,11 @@ def run(model_save_path = "model1.tar",LR = 1e-4, momentum = 0.9,batch_size = 51
         'epoch': num_epochs,
         'model_state_dict': best_model.state_dict(),
         'optimizer_state_dict': optimizer.state_dict(),
-        'loss': criterion
+        'loss': criterion,
+        'history': operator.get_training_history()
     }, model_save_path
     )
 
-    torch.load(model_save_path)
+    if model_load_path is not None:
+        model_state = torch.load(model_save_path)
+        # todo analiz kismi yazilacak
