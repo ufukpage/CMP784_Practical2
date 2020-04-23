@@ -4,7 +4,7 @@ from DataLoader import LoaderClass
 import torch
 from torch.nn import CrossEntropyLoss
 from torch import optim
-from torchvision import transforms, utils
+from torchvision import transforms
 import numpy as np
 import os
 from PIL import Image, ImageFile
@@ -98,7 +98,10 @@ def run(model_save_path, LR, momentum, batch_size, pooling,
         'optimizer_state_dict': optimizer.state_dict(),
         'loss': criterion,
         'history': operator.get_training_history(),
-        'transform': get_transform()
+        'transform': get_transform(),
+        'pooling': pooling,
+        'patience': patience,
+        'learning_rate': LR
     }, model_save_path
     )
 

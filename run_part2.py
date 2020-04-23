@@ -38,17 +38,13 @@ def run(model_save_path = "model2.tar", LR=1e-4, momentum=0.9, batch_size=512, a
     torch.save({
         'epoch': num_epochs,
         'model_state_dict': best_model.state_dict(),
-        'optimizer_state_dict': optimizer.state_dict(),
-        'loss': criterion
-    }, model_save_path
-    )
-
-    torch.save({
-        'epoch': num_epochs,
-        'model_state_dict': best_model.state_dict(),
+        'model': model,
         'optimizer_state_dict': optimizer.state_dict(),
         'loss': criterion,
-        'history': operator.get_training_history()
+        'history': operator.get_training_history(),
+        #'transform': get_transform(),
+        'patience': patience,
+        'learning_rate': LR
     }, model_save_path
     )
 
