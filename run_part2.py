@@ -6,18 +6,9 @@ from torch.nn import CrossEntropyLoss
 from torch import optim
 import matplotlib.pyplot as plt
 
-MODEL_SAVE_PATH = "model1_part2.tar"
-LR = 1e-3
-Momentum = 0.9 # If you use SGD with momentum
-BATCH_SIZE = 16
-USE_CUDA = True
-NUM_EPOCHS = 1
-PATIENCE = 5
-ALEXNET_EXTRACTOR = False
-FINETUNE_ALEXNET = False
-VISUALIZE = True
 
-if __name__ == "__main__":
+
+def run():
     # torch.backends.cudnn.benchmark = True
 
     train_loader, val_loader = get_train_data_loader(batch_size=BATCH_SIZE,
@@ -50,6 +41,18 @@ if __name__ == "__main__":
     }, MODEL_SAVE_PATH
     )
 
+    torch.save({
+        'epoch': num_epochs,
+        'model_state_dict': best_model.state_dict(),
+        'optimizer_state_dict': optimizer.state_dict(),
+        'loss': criterion,
+        'history': operator.get_training_history()
+    }, model_save_path
+    )
+
+    if model_load_path is not None:
+        model_state = torch.load(model_save_path)
+        # todo analiz kismi yazilacak
     test_loader = get_test_data_loader(batch_size=BATCH_SIZE, is_alexnet_used=ALEXNET_EXTRACTOR)[0]
     operator.test(test_loader)
 
