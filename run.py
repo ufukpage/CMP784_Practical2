@@ -47,10 +47,10 @@ def get_transform():
     t = {
         'train': transforms.Compose([
             transforms.Resize(50),
-            # transforms.RandomHorizontalFlip(),
-            # transforms.RandomVerticalFlip(),
-            # transforms.ColorJitter(brightness=0.1, contrast=0.1),
-            # transforms.RandomAffine(0, translate=(0.1, 0.1)),
+            transforms.RandomHorizontalFlip(),
+            transforms.RandomVerticalFlip(),
+            transforms.ColorJitter(brightness=0.1, contrast=0.1),
+            transforms.RandomAffine(0, translate=(0.1, 0.1)),
             transforms.ToTensor(),
             transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])
         ]),
@@ -72,7 +72,7 @@ def run(model_save_path, LR, momentum, batch_size, pooling,
     data,labels = load_artist_data()
     model = SimpleCNN(use_cuda=USE_CUDA, pooling=pooling)
     # optimizer = optim.Adam(model.parameters(), lr=LR,weight_decay=5e-3)
-    optimizer = optim.Adam(model.parameters(), lr=LR)
+    optimizer = optim.Adam(model.parameters(), lr=LR,weight_decay=5e-3)
     transforms = get_transform()
     train_dataset = LoaderClass(data,labels,"train",transforms["train"])
     valid_dataset = LoaderClass(data,labels,"val",transforms["val"])

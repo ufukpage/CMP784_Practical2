@@ -1,12 +1,12 @@
 from run import run
 
 MODEL_SAVE_PATH = "model1.tar"
-LR = 1e-4
+LR = 1e-3
 Momentum = 0.9 # If you use SGD with momentum
 BATCH_SIZE = 512
 USE_CUDA = True
 POOLING = True
-NUM_EPOCHS = 200
+NUM_EPOCHS = 500
 PATIENCE = -1
 DATA_PATH = "./art_data/artists"
 MODEL_LOAD_PATH = MODEL_SAVE_PATH
