@@ -106,8 +106,8 @@ class ModelOperator:
                     last_val_acc = acc_p
                     last_val_loss = loss_p
 
-                    self.val_accuracies.append(last_train_acc)
-                    self.val_losses.append(last_train_loss)
+                    self.val_accuracies.append(last_val_acc)
+                    self.val_losses.append(last_val_loss)
 
                     if loss_p < self.best_loss:
                         print(phase, "\t:New best loss, loss is: ",str(loss_p), "acc is: ",acc_p )

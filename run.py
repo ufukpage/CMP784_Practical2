@@ -96,7 +96,8 @@ def run(model_save_path, LR, momentum, batch_size, pooling,
         'model': model,
         'optimizer_state_dict': optimizer.state_dict(),
         'loss': criterion,
-        'history': operator.get_training_history()
+        'history': operator.get_training_history(),
+        'transform': get_transform()
     }, model_save_path
     )
 
