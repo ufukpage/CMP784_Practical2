@@ -31,9 +31,15 @@ class ModelOperator:
         if self.model.use_cuda:
             self.model = self.model.cuda()
 
+
+        self.train_accuracies = []
+        self.train_losses = []
+        self.val_accuracies = []
+        self.val_losses = []
+
     def train(self):
 
-        pbar = tqdm.tqdm(desc= "Epoch 0, phase: Train",postfix="train_loss : ?, train_acc: ?")
+        pbar = tqdm.tqdm(desc= "Epoch 0, phase: Train", postfix="train_loss : ?, train_acc: ?")
         start = time.time()
         for i in range(self.num_epoch):
             last_train_acc = 0
@@ -68,8 +74,12 @@ class ModelOperator:
                     if labels.ndim > 1:
                         _, labels = torch.max(labels, 1)
                     loss = self.criterion(softmaxed_scores,labels)
-                    total_loss += loss.item()
-                    total_acc += torch.sum(predictions == labels).item()
+
+                    curr_loss = loss.item()
+                    total_loss += curr_loss
+
+                    curr_acc = torch.sum(predictions == labels).item()
+                    total_acc += curr_acc
 
                     if phase == "train":
                         pbar.set_postfix_str("train acc: %6.3f," %(total_acc/ (iter*self.batch_size)) + ("train loss: %6.3f" % (total_loss / iter)))
@@ -87,11 +97,17 @@ class ModelOperator:
                     acc_p = total_acc / len(self.tr_loader.dataset)
                     last_train_acc = acc_p
                     last_train_loss = loss_p
+
+                    self.train_accuracies.append(last_train_acc)
+                    self.train_losses.append(last_train_loss)
                 else:
                     loss_p = total_loss / iter
                     acc_p = total_acc / len(self.val_loader.dataset)
                     last_val_acc = acc_p
                     last_val_loss = loss_p
+
+                    self.val_accuracies.append(last_train_acc)
+                    self.val_losses.append(last_train_loss)
 
                     if loss_p < self.best_loss:
                         print(phase, "\t:New best loss, loss is: ",str(loss_p), "acc is: ",acc_p )
@@ -145,3 +161,6 @@ class ModelOperator:
 
             print('Accuracy of the network on the test images: %d %%' % (
                 100 * total_acc / len(test_loader.dataset)))
+
+    def get_training_history(self):
+        return [self.train_accuracies, self.train_losses, self.val_accuracies, self.val_losses]

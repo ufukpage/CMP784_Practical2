@@ -55,7 +55,7 @@ if __name__ == "__main__":
 
     # Visualize feature maps
     ###################################################
-    ##### Layer ciktilari i yoksa layer weigtleri mi gosterilecek? Su anda layer weigtleri gosteriliyor
+    ##### Layer ciktilari mi yoksa layer weigtleri mi gosterilecek? Su anda layer weigtleri gosteriliyor
     # activations = {}
     # model.hidden_fc_layer_2.register_forward_hook(get_activation('hidden_fc_layer_2'))
 

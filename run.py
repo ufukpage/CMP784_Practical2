@@ -59,7 +59,7 @@ def get_transform():
     return t
 
 
-def run(model_save_path = "model1.tar",LR = 1e-4,momentum = 0.9,batch_size = 512,pooling = True,
+def run(model_save_path = "model1.tar",LR = 1e-4, momentum = 0.9,batch_size = 512,pooling = True,
         num_epochs = 200,patience = -1,path = "./art_data/artists"):
     global DATA_PATH
     DATA_PATH = path
@@ -79,9 +79,9 @@ def run(model_save_path = "model1.tar",LR = 1e-4,momentum = 0.9,batch_size = 512
                                              shuffle=True, num_workers=4, pin_memory=True)
 
     criterion = CrossEntropyLoss()
-    trainer_m = ModelOperator(model, criterion, train_loader, val_loader, optimizer, num_epoch=num_epochs, patience=patience,
+    operator = ModelOperator(model, criterion, train_loader, val_loader, optimizer, num_epoch=num_epochs, patience=patience,
                               batch_size=batch_size, lr_scheduler=None)
-    best_model = trainer_m.train()
+    best_model = operator.train()
 
     torch.save({
         'epoch': num_epochs,
@@ -90,3 +90,5 @@ def run(model_save_path = "model1.tar",LR = 1e-4,momentum = 0.9,batch_size = 512
         'loss': criterion
     }, model_save_path
     )
+
+    torch.load(model_save_path)
