@@ -50,7 +50,7 @@ def get_transform():
             transforms.RandomHorizontalFlip(),
             transforms.RandomVerticalFlip(),
             transforms.ColorJitter(brightness=0.1, contrast=0.1),
-            transforms.RandomAffine(translate=0.1),
+            transforms.RandomAffine(0, translate=0.1),
             transforms.ToTensor(),
             transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])
         ]),
