@@ -4,9 +4,11 @@ import matplotlib.pyplot as plt
 
 
 def plot_history(training_data, validation_data, title="Training Time", y_label="Accuracy",
-                 fig_name="dummy.png", show=True):
+                 fig_name="dummy.png", show=True,isLoss = False):
     epochs = list(range(0, len(training_data), 1))
-
+    axes = plt.gca()
+    if not isLoss:
+        axes.set_ylim([0,1])
     plt.plot(epochs, training_data, 'b', label='Training '+y_label)
     plt.plot(epochs, validation_data, 'r', label='Val '+ y_label)
     # b is for "solid blue line"
@@ -57,6 +59,6 @@ for root, dirs, files in os.walk(directory):
 
         fig_name = model_name + "_train.png"
         plot_history(train_accs, val_accs, title="Training Time", y_label="Accuracy", fig_name=model_name+"_acc.png")
-        plot_history(train_losses, val_losses, title="Training Time", y_label="Loss", fig_name=model_name+"_loss.png")
+        plot_history(train_losses, val_losses, title="Training Time", y_label="Loss", fig_name=model_name+"_loss.png",isLoss=True)
         write_params(model_name, checkpoint)
 
