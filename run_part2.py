@@ -21,7 +21,7 @@ def run(model_save_path = "model2.tar", LR=1e-4, momentum=0.9, batch_size=512, a
 
     if fine_tune_alexnet:
         model = FaceRecognizerAlexNetModel(class_number=number_of_class, use_cuda=USE_CUDA)
-        ALEXNET_EXTRACTOR = True    # otomatik true olmasi lazim cunku data augmentation buna gore yapiliyor
+        alex_net_extractor = True    # otomatik true olmasi lazim cunku data augmentation buna gore yapiliyor
     else:
         model = FaceRecognizerModel(class_number=number_of_class, use_cuda=USE_CUDA,
                                     use_alexnet_extractor=alex_net_extractor)
