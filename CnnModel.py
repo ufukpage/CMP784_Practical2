@@ -11,11 +11,9 @@ class SimpleCNN(torch.nn.Module):
         self.pool_layer1 = torch.nn.MaxPool2d(kernel_size=2, stride=1)
         self.conv_layer2 = torch.nn.Conv2d(in_channels=16, out_channels=16, kernel_size=5, stride=2)
         self.pool_layer2 = torch.nn.MaxPool2d(kernel_size=2, stride=1)
-        self.conv_layer3 = torch.nn.Conv2d(in_channels=16, out_channels=16,kernel_size=5,stride=2)
-        self.pool_layer3 = torch.nn.MaxPool2d(kernel_size=2,stride=1)
 
         if pooling:
-            self.fully_connected_layer = nn.Linear(1936,64)
+            self.fully_connected_layer = nn.Linear(1024,64)
             self.final_layer = nn.Linear(64,11)
         else:
             self.fully_connected_layer = nn.Linear(1600, 64)
@@ -28,9 +26,6 @@ class SimpleCNN(torch.nn.Module):
         x = torch.nn.functional.relu(self.conv_layer2(x))
         if self.pooling:
             x = self.pool_layer2(x)
-        x = torch.nn.functional.relu(self.conv_layer3(x))
-        if self.pooling:
-            x = self.pool_layer3(x)
         x = x.reshape(x.size(0),-1)
         x = torch.nn.functional.relu(self.fully_connected_layer(x))
         x = self.final_layer(x)
