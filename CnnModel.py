@@ -15,7 +15,7 @@ class SimpleCNN(torch.nn.Module):
         self.pool_layer3 = torch.nn.MaxPool2d(kernel_size=2,stride=1)
 
         if pooling:
-            self.fully_connected_layer = nn.Linear(16,64)
+            self.fully_connected_layer = nn.Linear(1936,64)
             self.final_layer = nn.Linear(64,11)
         else:
             self.fully_connected_layer = nn.Linear(1600, 64)
