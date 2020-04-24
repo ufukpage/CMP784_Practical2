@@ -7,9 +7,9 @@ class SimpleCNN(torch.nn.Module):
         super(SimpleCNN, self).__init__()
         self.use_cuda = use_cuda
         self.pooling = pooling
-        self.conv_layer1 = torch.nn.Conv2d(in_channels=3, out_channels=16, kernel_size=5, stride=4)
+        self.conv_layer1 = torch.nn.Conv2d(in_channels=3, out_channels=32, kernel_size=5, stride=2)
         self.pool_layer1 = torch.nn.MaxPool2d(kernel_size=2, stride=1)
-        self.conv_layer2 = torch.nn.Conv2d(in_channels=16, out_channels=16, kernel_size=5, stride=4)
+        self.conv_layer2 = torch.nn.Conv2d(in_channels=32, out_channels=64, kernel_size=5, stride=2)
         self.pool_layer2 = torch.nn.MaxPool2d(kernel_size=2, stride=1)
 
         if pooling:
