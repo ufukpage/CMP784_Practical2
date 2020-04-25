@@ -93,7 +93,7 @@ def __get_data_loader(phases, batch_size, is_alexnet_used=False):
                           for x in phases}
 
     dataloaders = [torch.utils.data.DataLoader(image_datasets[x], batch_size=batch_size,
-                                                    shuffle=True, num_workers=4, pin_memory=True)
+                                                    shuffle=True, num_workers=16, pin_memory=True)
                    for x in phases]
 
     # dataset_sizes = {x: len(image_datasets[x]) for x in phases}

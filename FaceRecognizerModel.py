@@ -30,6 +30,7 @@ def init_linear_weights(m):
 
 
 class FaceRecognizerModel(nn.Module):
+
     def __init__(self, class_number, use_cuda=True, use_alexnet_extractor=False):
         super(FaceRecognizerModel, self).__init__()
         self.use_alexnet_extractor = use_alexnet_extractor

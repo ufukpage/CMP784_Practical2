@@ -9,7 +9,7 @@ import matplotlib.pyplot as plt
 
 def run(model_save_path = "model2.tar", LR=1e-2, momentum=0.9, batch_size=512, alex_net_extractor = False,
         fine_tune_alexnet = True, visualize=True,
-        num_epochs=200, patience=-1, scheduler_step=10, model_load_path=None,
+        num_epochs=200, patience=-1, scheduler_step=10, model_load_path=None, weight_decay=0,
         USE_CUDA=True):
 
     # torch.backends.cudnn.benchmark = True
@@ -32,7 +32,8 @@ def run(model_save_path = "model2.tar", LR=1e-2, momentum=0.9, batch_size=512, a
                                              use_alexnet_extractor=alex_net_extractor)
         model.apply(init_linear_weights)
 
-    optimizer = optim.Adam(model.get_learning_params(), lr=LR)
+    optimizer = optim.Adam(model.get_learning_params(), lr=LR, weight_decay=weight_decay)
+
     criterion = CrossEntropyLoss()
     operator = ModelOperator(model, criterion, train_loader, val_loader, optimizer, num_epoch=num_epochs,
                              patience=patience, batch_size=batch_size, lr_scheduler=None)
