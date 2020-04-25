@@ -1,9 +1,9 @@
 from run_part2 import run
 
 MODEL_SAVE_PATH = "model1_part2.tar"
-LR = 1e-3
-Momentum = 0.9 # If you use SGD with momentum
-BATCH_SIZE = 512
+LR = 1e-2
+Momentum = 0.9
+BATCH_SIZE = 1024
 USE_CUDA = True
 NUM_EPOCHS = 200
 PATIENCE = -1

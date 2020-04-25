@@ -23,6 +23,12 @@ class Flatten(nn.Module):
         return x.view(batch_size, -1)
 
 
+def init_linear_weights(m):
+    if type(m) == nn.Linear:
+        torch.nn.init.xavier_uniform(m.weight)
+        m.bias.data.fill_(0.01)
+
+
 class FaceRecognizerModel(nn.Module):
     def __init__(self, class_number, use_cuda=True, use_alexnet_extractor=False):
         super(FaceRecognizerModel, self).__init__()

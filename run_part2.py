@@ -7,7 +7,7 @@ from torch import optim
 import matplotlib.pyplot as plt
 
 
-def run(model_save_path = "model2.tar", LR=1e-4, momentum=0.9, batch_size=512, alex_net_extractor = False,
+def run(model_save_path = "model2.tar", LR=1e-2, momentum=0.9, batch_size=512, alex_net_extractor = False,
         fine_tune_alexnet = True, visualize=True,
         num_epochs=200, patience=-1, scheduler_step=10, model_load_path=None,
         USE_CUDA=True):
@@ -25,10 +25,12 @@ def run(model_save_path = "model2.tar", LR=1e-4, momentum=0.9, batch_size=512, a
     else:
         model = FaceRecognizerModel(class_number=number_of_class, use_cuda=USE_CUDA,
                                     use_alexnet_extractor=alex_net_extractor)
+        model.apply(init_linear_weights)
 
     if visualize:
         model = FaceRecognizerVisualizeModel(class_number=number_of_class, use_cuda=USE_CUDA,
                                              use_alexnet_extractor=alex_net_extractor)
+        model.apply(init_linear_weights)
 
     optimizer = optim.Adam(model.get_learning_params(), lr=LR)
     criterion = CrossEntropyLoss()
