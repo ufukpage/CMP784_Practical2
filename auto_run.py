@@ -1,7 +1,7 @@
 from run import run
 
 MODEL_SAVE_PATH = "model1.tar"
-LR = 5e-4
+LR = 1e-4
 Momentum = 0.9 # If you use SGD with momentum
 BATCH_SIZE = 512
 USE_CUDA = True
