@@ -1,3 +1,4 @@
+name	image_id	face_id	url	bbox	sha256
 Loni Anderson	4385	2055	http://dullumfile.areavoices.com/files/2013/11/loni-two.jpg	65,66,188,189	07723982406a53e15ab283a321a9f5594b0f3c26c3b44567520c6aa71fa06fab
 Loni Anderson	4386	2056	http://www.biography.com/imported/images/Biography/Images/Profiles/A/Loni-Anderson-474322-1-402.jpg	31,73,339,381	6a1f96356ef0553f95a58a9a007d1982c6d1211f6cd5be284550313c8c709889
 Loni Anderson	4387	2057	http://static2.wikia.nocookie.net/__cb20130223012926/threescompany/images/8/86/Loni_Anderson_2009_07_08.jpg	108,130,502,524	5e8f8f209828071771dd3db155849d855e6202bf29b4cdeeac7e0297629838e3

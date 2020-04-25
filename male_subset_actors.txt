@@ -1,3 +1,4 @@
+name	image_id	face_id	url	bbox	sha256
 Andy Richter	5295	3050	http://s3.amazonaws.com/omgicu/celebrity_images/original_05f0b960d7844c3f2d9c0c0c36a6b07b.jpg	82,117,250,285	44547aae63c700b046e2dd7248e7df8726ade928c7f2c8688818a8548138629b
 Andy Richter	5296	3051	http://thelaughbutton.com/site/wp-content/uploads/2010/06/richter-765787.jpg	96,81,206,191	3b15564545dc16d184e52077336373d632aca6bb3c8c3c0814e41332dd6287df
 Andy Richter	5297	3052	http://www.zap2it.com/media/photo/2006-03/22310073.jpg	43,34,177,168	c8078531192d7471ccd97601df1b98d772c0c40b09830b2f6302ab78fe700646
