@@ -70,10 +70,10 @@ class ModelOperator:
                     self.optimizer.zero_grad()
                     logits = self.model(images)
                     softmaxed_scores = self.softmax(logits)
-                    _, predictions = torch.max(softmaxed_scores,1)
+                    _, predictions = torch.max(softmaxed_scores, 1)
                     if labels.ndim > 1:
                         _, labels = torch.max(labels, 1)
-                    loss = self.criterion(softmaxed_scores,labels)
+                    loss = self.criterion(softmaxed_scores, labels)
 
                     curr_loss = loss.item()
                     total_loss += curr_loss
