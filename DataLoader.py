@@ -47,21 +47,21 @@ def imagenet_transform(mode):
     return data_transforms[mode]
 
 
+""""
+'train': transforms.Compose([
+    transforms.Resize(im_size),
+    transforms.RandomHorizontalFlip(),
+    transforms.RandomVerticalFlip(),
+    transforms.ColorJitter(brightness=0.1, contrast=0.1),
+    transforms.RandomAffine(0, translate=(0.1, 0.1)),
+    transforms.ToTensor(),
+    transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])
+]),
+"""
 def simple_image_transform(mode):
 
     im_size = (28, 28)
     data_transforms = {
-        """"
-        'train': transforms.Compose([
-            transforms.Resize(im_size),
-            transforms.RandomHorizontalFlip(),
-            transforms.RandomVerticalFlip(),
-            transforms.ColorJitter(brightness=0.1, contrast=0.1),
-            transforms.RandomAffine(0, translate=(0.1, 0.1)),
-            transforms.ToTensor(),
-            transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])
-        ]),
-        """
         'train': transforms.Compose([
             transforms.Resize(im_size),
             transforms.ToTensor(),
@@ -73,7 +73,10 @@ def simple_image_transform(mode):
             transforms.ToTensor(),
             transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])
         ]),
-        'test': transforms.Compose([transforms.Resize(im_size), transforms.ToTensor()])
+        'test': transforms.Compose([
+            transforms.Resize(im_size),
+            transforms.ToTensor(),
+            transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])])
     }
     return data_transforms[mode]
 
