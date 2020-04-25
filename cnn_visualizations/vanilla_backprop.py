@@ -5,7 +5,7 @@ Created on Thu Oct 26 11:19:58 2017
 """
 import torch
 
-from misc_functions import get_example_params, convert_to_grayscale, save_gradient_images
+from cnn_visualizations.misc_functions import get_example_params, convert_to_grayscale, save_gradient_images
 
 
 class VanillaBackprop():

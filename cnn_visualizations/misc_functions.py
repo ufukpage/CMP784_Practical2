@@ -215,6 +215,7 @@ def get_positive_negative_saliency(gradient):
     return pos_saliency, neg_saliency
 
 
+# todo examplelar path olarak parametre seklinde verilecek, verilmeyedebilir demo olarak kullanilmis incelenecek
 def get_example_params(example_index):
     """
         Gets used variables for almost all visualizations, like the image, model etc.

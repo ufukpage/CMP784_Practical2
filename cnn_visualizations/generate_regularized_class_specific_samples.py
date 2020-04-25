@@ -13,7 +13,7 @@ from torch.optim import SGD
 from torch.autograd import Variable
 from torchvision import models
 
-from misc_functions import recreate_image, save_image
+from cnn_visualizations.misc_functions import recreate_image, save_image
 
 use_cuda = torch.cuda.is_available()
 
