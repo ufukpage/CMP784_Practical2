@@ -62,23 +62,23 @@ def run(model_save_path = "model2.tar", LR=1e-2, momentum=0.9, batch_size=512, a
     ##### Layer ciktilari mi yoksa layer weigtleri mi gosterilecek? Su anda layer weigtleri gosteriliyor
     # activations = {}
     # model.hidden_fc_layer_2.register_forward_hook(get_activation('hidden_fc_layer_2'))
+    if visualize:
+        data, _ = val_loader.dataset[0]
+        data.unsqueeze_(0)
 
-    data, _ = val_loader.dataset[0]
-    data.unsqueeze_(0)
+        model.eval()
+        output = model(data.cuda())
 
-    model.eval()
-    output = model(data.cuda())
-
-    """"
-    act = activations['hidden_fc_layer_2']
-    plt.imshow(act.cpu().numpy()) # matshow
-    def get_activation(name):
-        def hook(model, input, output):
-            activations[name] = output.detach()
-        return hook
-    """""
-    plt.matshow(model.hidden_fc_layer_2.weight.data.cpu().numpy())  # matshow ve imshow
-    plt.show()
+        """"
+        act = activations['hidden_fc_layer_2']
+        plt.imshow(act.cpu().numpy()) # matshow
+        def get_activation(name):
+            def hook(model, input, output):
+                activations[name] = output.detach()
+            return hook
+        """""
+        plt.matshow(model.hidden_fc_layer_2.weight.data.cpu().numpy())  # matshow ve imshow
+        plt.show()
 
     ##############################################333
 

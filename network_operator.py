@@ -65,8 +65,8 @@ class ModelOperator:
                     iter += 1
                     if self.model.use_cuda:
                         #images, labels = (Variable(images)).cuda(), (Variable(labels)).cuda()
-                        images = images.cuda()
-                        labels = labels.cuda()
+                        images = images.cuda(non_blocking=True)
+                        labels = labels.cuda(non_blocking=True)
                     self.optimizer.zero_grad()
                     logits = self.model(images)
                     softmaxed_scores = self.softmax(logits)

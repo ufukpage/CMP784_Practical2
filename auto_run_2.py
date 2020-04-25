@@ -3,7 +3,7 @@ from run_part2 import run
 MODEL_SAVE_PATH = "model1_part2.tar"
 LR = 1e-4
 Momentum = 0.9
-BATCH_SIZE = 2048
+BATCH_SIZE = 8192
 NUM_EPOCHS = 200
 PATIENCE = -1
 ALEXNET_EXTRACTOR = False
