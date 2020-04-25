@@ -53,15 +53,17 @@ def simple_image_transform(mode):
     data_transforms = {
         'train': transforms.Compose([
             transforms.RandomResizedCrop(im_size),
-            #transforms.RandomHorizontalFlip(),
-            transforms.ToTensor()
-            # transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])
+            transforms.RandomHorizontalFlip(),
+            transforms.RandomVerticalFlip(),
+            transforms.ColorJitter(brightness=0.1, contrast=0.1),
+            transforms.RandomAffine(0, translate=(0.1, 0.1)),
+            transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])
         ]),
         'val': transforms.Compose([
             transforms.Resize(im_size),
             # transforms.CenterCrop(im_size),
-            transforms.ToTensor()
-            # transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])
+            transforms.ToTensor(),
+            transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])
         ]),
         'test': transforms.Compose([transforms.Resize(im_size), transforms.ToTensor()])
     }
