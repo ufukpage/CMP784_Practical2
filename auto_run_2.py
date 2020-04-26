@@ -1,7 +1,7 @@
 from run_part2 import run
 
 MODEL_SAVE_PATH = "model1_part2.tar"
-LR = 5e-3
+LR = 5e-4
 Momentum = 0.9
 BATCH_SIZE = 8192
 NUM_EPOCHS = 500
