@@ -48,8 +48,8 @@ class FaceRecognizerModel(nn.Module):
             self.hidden_fc_layer = nn.Linear(in_features=3*28*28, out_features=800)
 
         self.dropout = nn.Dropout(0.4)
-        self.hidden_fc_layer_2 = nn.Linear(in_features=300, out_features=128)
-        #self.hidden_fc_layer_3 = nn.Linear(in_features=512, out_features=128)
+        self.hidden_fc_layer_2 = nn.Linear(in_features=800, out_features=128)
+        # self.hidden_fc_layer_3 = nn.Linear(in_features=512, out_features=128)
         self.flatten = Flatten()  # todo belki flatten kaldirilabilir
         self.final_layer = nn.Linear(in_features=128, out_features=class_number)
         # todo log softmax layer getirilebilir
