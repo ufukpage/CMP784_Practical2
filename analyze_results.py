@@ -1,4 +1,3 @@
-
 import torch, os, sys
 import matplotlib.pyplot as plt
 
@@ -9,8 +8,8 @@ def plot_history(training_data, validation_data, title="Training Time", y_label=
     axes = plt.gca()
     if not isLoss:
         axes.set_ylim([0,1])
-    plt.plot(epochs, training_data, 'b', label='Training '+y_label)
-    plt.plot(epochs, validation_data, 'r', label='Val '+ y_label)
+    plt.plot(epochs, training_data, 'b', label='Training ' + y_label)
+    plt.plot(epochs, validation_data, 'r', label='Val ' + y_label)
     # b is for "solid blue line"
     plt.title(title)
     plt.xlabel('Epochs')
@@ -34,12 +33,10 @@ def write_params(model_name, checkpoint, write_path="part1_results"):
 
     filepath = os.path.join(figs_dir, model_name+'.txt')
     file = open(filepath, 'w')
-    # Writing a string to file
 
     for key in checkpoint:
         file.write(str(key)+":\t"+str(checkpoint[key]) + "\n")
 
-    # Closing file
     file.close()
 
 
@@ -65,5 +62,5 @@ def analyze_part(directory="part1_models", write_path="part1_results"):
 
 
 if __name__ == "__main__":
-
+    # analyze_part(directory="part1_models", write_path="part1_results")
     analyze_part(directory="part2_models", write_path="part2_results")

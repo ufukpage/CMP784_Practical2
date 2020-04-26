@@ -31,7 +31,6 @@ class ModelOperator:
         if self.model.use_cuda:
             self.model = self.model.cuda()
 
-
         self.train_accuracies = []
         self.train_losses = []
         self.val_accuracies = []
