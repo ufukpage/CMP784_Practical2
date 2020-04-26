@@ -35,7 +35,10 @@ def run(model_save_path = "model2.tar", LR=1e-2, momentum=0.9, batch_size=512, a
     optimizer = optim.Adam(model.get_learning_params(), lr=LR, weight_decay=weight_decay)
 
     criterion = CrossEntropyLoss()
-    scheduler = optim.lr_scheduler.CosineAnnealingLR(optimizer, scheduler_step)
+    if scheduler_step > 0:
+        scheduler = optim.lr_scheduler.CosineAnnealingLR(optimizer, scheduler_step)
+    else:
+        scheduler = None
     operator = ModelOperator(model, criterion, train_loader, val_loader, optimizer, num_epoch=num_epochs,
                              patience=patience, batch_size=batch_size, lr_scheduler=scheduler)
     best_model = operator.train()
@@ -48,7 +51,9 @@ def run(model_save_path = "model2.tar", LR=1e-2, momentum=0.9, batch_size=512, a
         'history': operator.get_training_history(),
         #'transform': get_transform(),
         'patience': patience,
-        'learning_rate': LR
+        'learning_rate': LR,
+        'weight_decay': weight_decay,
+        'scheduler_step': scheduler_step
     }, model_save_path
     )
 
