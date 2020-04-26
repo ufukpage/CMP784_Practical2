@@ -26,7 +26,7 @@ class Flatten(nn.Module):
 def init_linear_weights(m):
     if type(m) == nn.Linear:
         torch.nn.init.xavier_normal_(m.weight)
-        # m.bias.data.fill_(0.01)
+        m.bias.data.fill_(0.01)
 
 
 class FaceRecognizerModel(nn.Module):
