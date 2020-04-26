@@ -1,7 +1,5 @@
 import torch, os, sys
 import matplotlib.pyplot as plt
-import numpy as np
-import cv2
 
 
 def plot_history(training_data, validation_data, title="Training Time", y_label="Accuracy",
@@ -63,9 +61,9 @@ def analyze_part(directory="part1_models", write_path="part1_results"):
             write_params(model_name, checkpoint, write_path=write_path)
 
 
-def visualize_weights(model_path, show=False):
+def visualize_weights(model_path, channel=0, visualize_weights_folder_name="visual_weights", show=False):
     current_path = os.path.dirname(os.path.realpath(sys.argv[0]))
-    figs_dir = os.path.join(current_path, "visual_weights")
+    figs_dir = os.path.join(current_path, visualize_weights_folder_name)
     os.makedirs(figs_dir, exist_ok=True)
 
     checkpoint = torch.load(model_path)
@@ -76,19 +74,18 @@ def visualize_weights(model_path, show=False):
     weights = model_state_dict["hidden_fc_layer.weight"]
     for index, weight in enumerate(weights):
 
-        # neuron_weights = np.reshape(weight, (28, 28, 3))
-
-        neuron_weights = weight.view(28, 28, 3)
-        neuron_weights = neuron_weights[:,:,0]
+        neuron_weights = weight.view(-1, 28, 28)
+        neuron_weights = neuron_weights[channel, : , :]
         n_w = neuron_weights.cpu().numpy()
-        # resized_n_w = cv2.resize(n_w, (64, 64))
-        # cv2.imwrite(os.path.join(figs_dir, str(index)+".png"), resized_n_w*10000)
 
-        w = plt.imshow(n_w)
+        w = plt.imshow(n_w, interpolation='nearest')
         w.set_cmap("RdBu")
         plt.colorbar(w, orientation='vertical')
 
-        plt.savefig(os.path.join(figs_dir, str(index)+".png"), bbox_inches='tight')
+        fig_path = os.path.join(figs_dir, str(index)+".png")
+        if os.path.isfile(fig_path):
+            os.remove(fig_path)
+        plt.savefig(fig_path, bbox_inches='tight')
         plt.close("all")
         if show:
             plt.show()
@@ -96,7 +93,7 @@ def visualize_weights(model_path, show=False):
 
 if __name__ == "__main__":
     # analyze_part(directory="part1_models", write_path="part1_results")
-    # analyze_part(directory="part2_models", write_path="part2_results")
+    analyze_part(directory="part2_models", write_path="part2_results")
 
-    model_path = os.path.join("part2_models", "7-model1_part2_best.tar")
-    visualize_weights(model_path, show=False)
+    # model_path = os.path.join("part2_models", "7-model1_part2_best.tar")
+    # visualize_weights(model_path, show=False)
