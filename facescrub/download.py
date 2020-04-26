@@ -7,7 +7,7 @@ import hashlib
 import cv2
 
 
-files = ['facescrub_actors_subset.txt', 'facescrub_actresses_subset.txt']
+files = ['facescrub_actresses_subset.txt']
 RESULT_ROOT = './download'
 
 if not exists(RESULT_ROOT):

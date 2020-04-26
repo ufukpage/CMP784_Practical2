@@ -1109,7 +1109,6 @@ Daniel Radcliffe	27532	14800	http://breakfastwithspock.files.wordpress.com/2012/
 Daniel Radcliffe	27534	14801	http://a.abcnews.go.com/images/Entertainment/gty_daniel_radcliffe_sundance_jt_130119_wblog.jpg	190,39,298,147	3b48eced549322d2d443494d8b69bf792dc6d1c769276f181cae00bf50a0c10d
 Daniel Radcliffe	27535	14802	http://i2.cdnds.net/13/42/618x960/movies-london-film-festival-daniel-radcliffe.jpg	155,190,448,483	05086fdc61c8d9c7f05c19a9fdc1ed851232ec0d6216c688e5e1eb9650195346
 Daniel Radcliffe	27536	14803	http://topnews.in/light/files/Daniel-Radcliffe_49.jpg	124,55,252,183	2ded42c6878883c113062563af00384d7d3974c166dcc5802c37497982781749
-Daniel Radcliffe	27538	14804	http://www.disneydreaming.com/wp-content/uploads/2013/05/Daniel-Radcliffe-Harry-Potter.jpg	189,77,357,245	346a2a14164104fd1fbc9a1efd13b8f149efcc04c575dd77e923e40f50cbafc3
 Gary Dourdan	38495	20464	http://esg6rzdhdg9i115s.zippykid.netdna-cdn.com/wp-content/uploads/2011/06/gdalighta.jpeg	54,36,276,258	f2febae0b2a4e144697ffe836c2197fcbf85d54256472f6d7aa7308a4feee9a8
 Gary Dourdan	38496	20465	http://www.hdpaperwall.com/wp-content/uploads/2013/11/gary_dourdan_302.jpg	100,164,300,364	5c8c58af3f415efc2dfd128d64e20600fdeac73d2722e620c40e6e74c8014916
 Gary Dourdan	38497	20466	http://images1.fanpop.com/images/photos/2000000/Gary-Dourdan-gary-dourdan-2094038-1272-1599.jpg	286,334,1057,1105	f2b6c9bf6bf268742c0e59de88251444e1db6bacb70a738b33557175ff95b6ba
