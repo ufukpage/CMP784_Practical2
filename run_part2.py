@@ -4,10 +4,9 @@ from DataLoader import *
 import torch
 from torch.nn import CrossEntropyLoss
 from torch import optim
-import matplotlib.pyplot as plt
 
 
-def run(model_save_path = "model2.tar", LR=1e-2, momentum=0.9, batch_size=512, alex_net_extractor = False,
+def run(model_save_path="model2.tar", LR=1e-2, momentum=0.9, batch_size=512, alex_net_extractor=False,
         fine_tune_alexnet = True, visualize=True,
         num_epochs=200, patience=-1, scheduler_step=10, model_load_path=None, weight_decay=0,
         USE_CUDA=True):
@@ -57,35 +56,6 @@ def run(model_save_path = "model2.tar", LR=1e-2, momentum=0.9, batch_size=512, a
     }, model_save_path
     )
 
-    if model_load_path is not None:
-        model_state = torch.load(model_save_path)
-        # todo analiz kismi yazilacak
-
     test_loader = get_test_data_loader(batch_size=batch_size, is_alexnet_used=alex_net_extractor)[0]
     operator.test(test_loader)
-
-    # Visualize feature maps
-    ###################################################
-    ##### Layer ciktilari mi yoksa layer weigtleri mi gosterilecek? Su anda layer weigtleri gosteriliyor
-    # activations = {}
-    # model.hidden_fc_layer_2.register_forward_hook(get_activation('hidden_fc_layer_2'))
-    if visualize:
-        data, _ = val_loader.dataset[0]
-        data.unsqueeze_(0)
-
-        model.eval()
-        output = model(data.cuda())
-
-        """"
-        act = activations['hidden_fc_layer_2']
-        plt.imshow(act.cpu().numpy()) # matshow
-        def get_activation(name):
-            def hook(model, input, output):
-                activations[name] = output.detach()
-            return hook
-        """""
-        plt.matshow(model.hidden_fc_layer_2.weight.data.cpu().numpy())  # matshow ve imshow
-        plt.show()
-
-    ##############################################333
 

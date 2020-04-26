@@ -1,6 +1,5 @@
 import torch, os, sys
 import matplotlib.pyplot as plt
-import cv2
 
 
 def plot_history(training_data, validation_data, title="Training Time", y_label="Accuracy",
@@ -48,6 +47,7 @@ def analyze_part(directory="part1_models", write_path="part1_results"):
             model_name = file.split(".")[0]
             model_load_path = model_name+".tar"
 
+            # torch.nn.Module.dump_patches = True
             checkpoint = torch.load(os.path.join(directory, model_load_path))
 
             train_accs = checkpoint["history"]["training_acc"]
@@ -94,7 +94,9 @@ def visualize_weights(model_path, channel=0, visualize_weights_folder_name="visu
 
 if __name__ == "__main__":
     # analyze_part(directory="part1_models", write_path="part1_results")
-    analyze_part(directory="part2_models", write_path="part2_results")
+    # analyze_part(directory="part2_models", write_path="part2_results")
 
-    # model_path = os.path.join("part2_models", "7-model1_part2_best.tar")
-    # visualize_weights(model_path, show=False)
+    model_path = os.path.join("part2_models", "model1_part2_800.tar")
+    visualize_weights(model_path, show=False, visualize_weights_folder_name="weights_800", channel=0)
+    visualize_weights(model_path, show=False, visualize_weights_folder_name="weights_801", channel=1)
+    visualize_weights(model_path, show=False, visualize_weights_folder_name="weights_802", channel=2)

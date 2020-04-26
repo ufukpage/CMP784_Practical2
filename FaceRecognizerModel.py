@@ -43,12 +43,12 @@ class FaceRecognizerModel(nn.Module):
             self.feature_extractor = AlexNetConv4()
             for param in self.feature_extractor.parameters():
                 param.requires_grad = False
-            self.hidden_fc_layer = nn.Linear(in_features=256*13*13, out_features=300)
+            self.input_layer = nn.Linear(in_features=256 * 13 * 13, out_features=300)
         else:
-            self.hidden_fc_layer = nn.Linear(in_features=3*28*28, out_features=800)
+            self.input_layer = nn.Linear(in_features=3 * 28 * 28, out_features=800)
 
         self.dropout = nn.Dropout(0.4)
-        self.hidden_fc_layer_2 = nn.Linear(in_features=800, out_features=128)
+        self.hidden_fc_layer = nn.Linear(in_features=800, out_features=128)
         # self.hidden_fc_layer_3 = nn.Linear(in_features=512, out_features=128)
         self.flatten = Flatten()  # todo belki flatten kaldirilabilir
         self.final_layer = nn.Linear(in_features=128, out_features=class_number)
@@ -68,10 +68,10 @@ class FaceRecognizerModel(nn.Module):
             inp = self.feature_extractor(inp)
 
         x = self.flatten(inp)
-        x = torch.nn.functional.relu(self.hidden_fc_layer(x))
+        x = torch.nn.functional.relu(self.input_layer(x))
         if not self.use_alexnet_extractor:
             x = self.dropout(x)
-        x = torch.nn.functional.relu(self.hidden_fc_layer_2(x))
+        x = torch.nn.functional.relu(self.hidden_fc_layer(x))
         # x = torch.nn.functional.relu(self.hidden_fc_layer_3(x))
         x = self.final_layer(x)
         return x
