@@ -25,7 +25,7 @@ def run(model_save_path = "model2.tar", LR=1e-2, momentum=0.9, batch_size=512, a
     else:
         model = FaceRecognizerModel(class_number=number_of_class, use_cuda=USE_CUDA,
                                     use_alexnet_extractor=alex_net_extractor)
-        # model.apply(init_linear_weights)
+        model.apply(init_linear_weights)
 
     if visualize:
         model = FaceRecognizerVisualizeModel(class_number=number_of_class, use_cuda=USE_CUDA,
