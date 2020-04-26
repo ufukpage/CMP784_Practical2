@@ -78,17 +78,18 @@ def visualize_weights(model_path, show=False):
 
         # neuron_weights = np.reshape(weight, (28, 28, 3))
 
-        neuron_weights = weight.view(28, 28, 3)
-        cv2.imwrite(os.path.join(figs_dir, str(index)+".png"), neuron_weights.cpu().numpy()*100)
-        """"
-        w = plt.imshow(neuron_weights.astype('int32'))
+        neuron_weights = weight.view(28, 28, -1)
+        n_w = neuron_weights.cpu().numpy()
+        resized_n_w = cv2.resize(n_w, (64, 64))
+        # cv2.imwrite(os.path.join(figs_dir, str(index)+".png"), resized_n_w*10000)
+
+        w = plt.imshow(resized_n_w.astype('int32'))
         plt.colorbar(w, orientation='vertical')
 
         plt.savefig(os.path.join(figs_dir, str(index)+".png"), bbox_inches='tight')
         plt.close("all")
         if show:
             plt.show()
-        """
 
 
 if __name__ == "__main__":
