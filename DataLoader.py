@@ -65,6 +65,7 @@ def simple_image_transform(mode):
         'train': transforms.Compose([
             transforms.Resize(im_size),
             transforms.ToTensor(),
+            transforms.RandomVerticalFlip(),
             transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])
         ]),
         'val': transforms.Compose([
