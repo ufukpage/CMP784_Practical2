@@ -63,4 +63,13 @@ def analyze_part(directory="part1_models", write_path="part1_results"):
 
 if __name__ == "__main__":
     # analyze_part(directory="part1_models", write_path="part1_results")
-    analyze_part(directory="part2_models", write_path="part2_results")
+    # analyze_part(directory="part2_models", write_path="part2_results")
+
+    model_path = os.path.join("part2_models", "6-model1_part2_best.tar")
+    checkpoint = torch.load(model_path)
+    model_state_dict = checkpoint["model_state_dict"]
+    weights = model_state_dict["hidden_fc_layer.weight"].cpu().numpy()
+
+    weights[0]
+
+    print(weights.shape)
