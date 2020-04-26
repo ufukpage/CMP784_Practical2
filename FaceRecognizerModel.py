@@ -51,7 +51,7 @@ class FaceRecognizerModel(nn.Module):
         #self.hidden_fc_layer_2 = nn.Linear(in_features=300, out_features=128)
         #self.hidden_fc_layer_3 = nn.Linear(in_features=512, out_features=128)
         self.flatten = Flatten()  # todo belki flatten kaldirilabilir
-        self.final_layer = nn.Linear(in_features=128, out_features=class_number)
+        self.final_layer = nn.Linear(in_features=300, out_features=class_number)
         # todo log softmax layer getirilebilir
 
     def get_learning_params(self):
