@@ -45,7 +45,7 @@ class FaceRecognizerModel(nn.Module):
                 param.requires_grad = False
             self.hidden_fc_layer = nn.Linear(in_features=256*13*13, out_features=300)
         else:
-            self.hidden_fc_layer = nn.Linear(in_features=3*28*28, out_features=300)
+            self.hidden_fc_layer = nn.Linear(in_features=3*28*28, out_features=800)
 
         self.dropout = nn.Dropout(0.4)
         self.hidden_fc_layer_2 = nn.Linear(in_features=300, out_features=128)

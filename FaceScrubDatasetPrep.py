@@ -16,7 +16,6 @@ from os.path import isfile, join
 import shutil
 import urllib
 from sklearn.model_selection import train_test_split
-import itertools
 
 
 def timeout(func, args=(), kwargs={}, timeout_duration=1, default=None):
