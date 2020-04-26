@@ -35,8 +35,9 @@ def run(model_save_path = "model2.tar", LR=1e-2, momentum=0.9, batch_size=512, a
     optimizer = optim.Adam(model.get_learning_params(), lr=LR, weight_decay=weight_decay)
 
     criterion = CrossEntropyLoss()
+    scheduler = optim.lr_scheduler.CosineAnnealingLR(optimizer, scheduler_step)
     operator = ModelOperator(model, criterion, train_loader, val_loader, optimizer, num_epoch=num_epochs,
-                             patience=patience, batch_size=batch_size, lr_scheduler=None)
+                             patience=patience, batch_size=batch_size, lr_scheduler=scheduler)
     best_model = operator.train()
     torch.save({
         'epoch': num_epochs,
