@@ -9,6 +9,7 @@ import cv2
 
 files = ['facescrub_actors_subset.txt', 'facescrub_actresses_subset.txt']
 RESULT_ROOT = './download'
+
 if not exists(RESULT_ROOT):
     os.mkdir(RESULT_ROOT)
 
@@ -22,7 +23,7 @@ def download(data):
     assert(len(names) == len(bboxes))
 
     # download using external wget
-    CMD = 'wget -c -t 1 -T 3 "%s" -O "%s"'
+    CMD = 'wget -c -t 1 -T 3 "%s" -O "%s" --no-check-certificate'
     for i in range(len(names)):
         directory = join(RESULT_ROOT, names[i])
         if not exists(directory):

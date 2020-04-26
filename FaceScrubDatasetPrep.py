@@ -191,6 +191,64 @@ def create_data_set(cropped_image_path):
             shutil.copy(val_sample_path, val_class_dir)
 
 
+
+def create_data_set_new(cropped_image_path):
+    current_path = os.path.dirname(os.path.realpath(sys.argv[0]))
+    root_dataset = os.path.join(current_path, "dataset_part2")
+    train_set_path = os.path.join(root_dataset, "train")
+    test_set_path = os.path.join(root_dataset, "test")
+    val_set_path = os.path.join(root_dataset, "val")
+
+    test_ratio = 0.1
+    val_ratio = 0.1
+
+    if not os.path.exists(root_dataset):
+        os.mkdir(root_dataset)
+    if not os.path.exists(train_set_path):
+        os.mkdir(train_set_path)
+    if not os.path.exists(test_set_path):
+        os.mkdir(test_set_path)
+    if not os.path.exists(val_set_path):
+        os.mkdir(val_set_path)
+
+    data_set = {}
+    celebs = listdir(cropped_image_path)
+    for class_name in celebs:
+        class_path = os.path.join(cropped_image_path, class_name)
+
+        data_set[class_name] = []
+
+        for root, dirs, files in os.walk(class_path):
+
+            for file in files:
+                # print(os.path.join(class_path, file))
+                data_set[class_name].append(os.path.join(class_path, file))
+
+    for label in data_set:
+        print(len(data_set[label]))
+
+    for label in data_set:
+        train_set, test_set, val_set = split_class_dataset_randomly(data_set[label],
+                                                                    test_ratio=test_ratio, val_ratio=val_ratio)
+        train_class_dir = os.path.join(train_set_path, str(label))
+        test_class_dir = os.path.join(test_set_path, str(label))
+        val_class_dir = os.path.join(val_set_path, str(label))
+        if not os.path.exists(train_class_dir):
+            os.mkdir(train_class_dir)
+        if not os.path.exists(test_class_dir):
+            os.mkdir(test_class_dir)
+        if not os.path.exists(val_class_dir):
+            os.mkdir(val_class_dir)
+
+        for train_sample_path in train_set:
+            shutil.copy(train_sample_path, train_class_dir)
+
+        for test_sample_path in test_set:
+            shutil.copy(test_sample_path, test_class_dir)
+
+        for val_sample_path in val_set:
+            shutil.copy(val_sample_path, val_class_dir)
+
 if __name__ == "__main__":
     """
     if not os.path.exists("uncropped"):
@@ -215,5 +273,6 @@ if __name__ == "__main__":
     damaged_image = cropImage(bbox_female)
     np.save("damaged_image_female.npy", [damaged_image])
     """
-    cropped_image_path = "cropped"
-    create_data_set(cropped_image_path)
+    #cropped_image_path = "faces"
+    #create_data_set(cropped_image_path)
+    create_data_set_new("faces")
