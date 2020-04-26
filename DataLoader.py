@@ -84,7 +84,7 @@ def simple_image_transform(mode):
 
 def __get_data_loader(phases, batch_size, is_alexnet_used=False):
     current_path = os.path.dirname(os.path.realpath(sys.argv[0]))
-    root_dataset_path = os.path.join(current_path, "dataset_part2_old")
+    root_dataset_path = os.path.join(current_path, "dataset_part2")
 
     if is_alexnet_used:
         image_datasets = {x: datasets.ImageFolder(os.path.join(root_dataset_path, x), imagenet_transform(x))
