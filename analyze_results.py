@@ -1,6 +1,7 @@
 import torch, os, sys
 import matplotlib.pyplot as plt
 import numpy as np
+import cv2
 
 
 def plot_history(training_data, validation_data, title="Training Time", y_label="Accuracy",
@@ -70,24 +71,29 @@ def visualize_weights(model_path, show=False):
     checkpoint = torch.load(model_path)
 
     model_state_dict = checkpoint["model_state_dict"]
-    weights = model_state_dict["hidden_fc_layer.weight"].data.cpu().numpy()
+    # weights = model_state_dict["hidden_fc_layer.weight"].data.cpu().numpy()
 
+    weights = model_state_dict["hidden_fc_layer.weight"]
     for index, weight in enumerate(weights):
 
-        first_neuron_weights = np.reshape(weight, (28, 28, 3))
+        # neuron_weights = np.reshape(weight, (28, 28, 3))
 
-        w = plt.imshow(first_neuron_weights.astype('int32'))
+        neuron_weights = weight.view(28, 28, 3)
+        cv2.imwrite(os.path.join(figs_dir, str(index)+".png"), neuron_weights.cpu().numpy()*100)
+        """"
+        w = plt.imshow(neuron_weights.astype('int32'))
         plt.colorbar(w, orientation='vertical')
 
-        plt.savefig(os.path.join(figs_dir, str(index)), bbox_inches='tight')
+        plt.savefig(os.path.join(figs_dir, str(index)+".png"), bbox_inches='tight')
         plt.close("all")
-    if show:
-        plt.show()
+        if show:
+            plt.show()
+        """
 
 
 if __name__ == "__main__":
     # analyze_part(directory="part1_models", write_path="part1_results")
     # analyze_part(directory="part2_models", write_path="part2_results")
 
-    model_path = os.path.join("part2_models", "6-model1_part2_best.tar")
+    model_path = os.path.join("part2_models", "7-model1_part2_best.tar")
     visualize_weights(model_path, show=False)

@@ -26,7 +26,7 @@ class Flatten(nn.Module):
 def init_linear_weights(m):
     if type(m) == nn.Linear:
         torch.nn.init.xavier_normal_(m.weight)
-        m.bias.data.fill_(0.01)
+        # m.bias.data.fill_(0.01)
 
 
 class FaceRecognizerModel(nn.Module):
@@ -36,7 +36,6 @@ class FaceRecognizerModel(nn.Module):
         self.use_alexnet_extractor = use_alexnet_extractor
         self.use_cuda = use_cuda
         self.feature_extractor = None
-
 
         if use_alexnet_extractor:
             # https://sushscience.wordpress.com/2016/12/04/understanding-alexnet/
