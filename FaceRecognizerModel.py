@@ -48,9 +48,9 @@ class FaceRecognizerModel(nn.Module):
         else:
             self.hidden_fc_layer = nn.Linear(in_features=3*28*28, out_features=300)
 
-        self.hidden_fc_layer_2 = nn.Linear(in_features=300, out_features=128)
+        #self.hidden_fc_layer_2 = nn.Linear(in_features=300, out_features=128)
         #self.hidden_fc_layer_3 = nn.Linear(in_features=512, out_features=128)
-        #self.flatten = Flatten()  # todo belki flatten kaldirilabilir
+        self.flatten = Flatten()  # todo belki flatten kaldirilabilir
         self.final_layer = nn.Linear(in_features=128, out_features=class_number)
         # todo log softmax layer getirilebilir
 
@@ -69,8 +69,8 @@ class FaceRecognizerModel(nn.Module):
 
         x = self.flatten(inp)
         x = torch.nn.functional.relu(self.hidden_fc_layer(x))
-        x = torch.nn.functional.relu(self.hidden_fc_layer_2(x))
-        x = torch.nn.functional.relu(self.hidden_fc_layer_3(x))
+        # x = torch.nn.functional.relu(self.hidden_fc_layer_2(x))
+        # x = torch.nn.functional.relu(self.hidden_fc_layer_3(x))
         x = self.final_layer(x)
         return x
 
