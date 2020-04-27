@@ -119,8 +119,9 @@ if __name__ == "__main__":
     classes = [d for d in os.listdir(dataset_dir) if os.path.isdir(os.path.join(dataset_dir, d))]
     classes.sort()
     target_class = classes.index("Jason_Statham")
-    model = model.cuda()
-    GBP = gb.GuidedBackprop(model.alexnet)
+
+    model_alexnet = model.alexnet.cuda()
+    GBP = gb.GuidedBackprop(model_alexnet)
 
     guided_grads = GBP.generate_gradients(image.cuda(), target_class)
 
