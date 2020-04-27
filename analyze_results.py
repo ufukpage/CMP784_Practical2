@@ -95,13 +95,13 @@ if __name__ == "__main__":
     # analyze_part(directory="part1_models", write_path="part1_results")
     # analyze_part(directory="part2_models", write_path="part2_results")
 
-    #model_path = os.path.join("part2_models", "model1_part2_800.tar")
-    #visualize_weights(model_path, show=False, visualize_weights_folder_name="weights_800", channel=0)
-    #visualize_weights(model_path, show=False, visualize_weights_folder_name="weights_801", channel=1)
-    #visualize_weights(model_path, show=False, visualize_weights_folder_name="weights_802", channel=2)
+    # model_path = os.path.join("part2_models", "model1_part2_800.tar")
+    # visualize_weights(model_path, show=False, visualize_weights_folder_name="weights_800", channel=0)
+    # visualize_weights(model_path, show=False, visualize_weights_folder_name="weights_801", channel=1)
+    # visualize_weights(model_path, show=False, visualize_weights_folder_name="weights_802", channel=2)
 
     import gradient_visualization.guided_backprop as gb
-    #import gradient_visualization.gradcam as gradcam
+    # import gradient_visualization.gradcam as gradcam
     from PIL import Image
 
     from gradient_visualization.misc_functions import preprocess_image, save_gradient_images
