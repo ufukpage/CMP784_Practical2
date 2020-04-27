@@ -40,13 +40,13 @@ def save_gradient_images(gradient, file_name):
         gradient (np arr): Numpy array of the gradient with shape (3, 224, 224)
         file_name (str): File name to be exported
     """
-    if not os.path.exists('../results'):
-        os.makedirs('../results')
+    if not os.path.exists('./results'):
+        os.makedirs('./results')
     # Normalize
     gradient = gradient - gradient.min()
     gradient /= gradient.max()
     # Save image
-    path_to_file = os.path.join('../results', file_name + '.jpg')
+    path_to_file = os.path.join('./results', file_name + '.jpg')
     save_image(gradient, path_to_file)
 
 
