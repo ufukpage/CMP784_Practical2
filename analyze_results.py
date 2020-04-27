@@ -101,7 +101,26 @@ if __name__ == "__main__":
     #visualize_weights(model_path, show=False, visualize_weights_folder_name="weights_802", channel=2)
 
     import gradient_visualization.guided_backprop as gb
+    import gradient_visualization.gradcam as gradcam
+    from PIL import Image
 
-    model_path = os.path.join("part2_models", "model1_part2_800.tar")
-    pre_trained = torch.load(model_path)
-    gb.GuidedBackprop(pre_trained)
+    from gradient_visualization.misc_functions import preprocess_image
+
+    model_path = os.path.join("part2_models", "alexnet.tar")
+    checkpoint = torch.load(model_path)
+    torch.nn.Module.dump_patches = True
+    model = checkpoint["model"]
+    model.load_state_dict(checkpoint['model_state_dict'])
+
+    image = Image.open("statham_ornek.jpg").convert('RGB')
+
+    image = preprocess_image(image)
+    dataset_dir = "dataset_part2/train"
+    classes = [d for d in os.listdir(dataset_dir) if os.path.isdir(os.path.join(dataset_dir, d))]
+    classes.sort()
+    target_class = classes.index("Jason_Statham")
+    model = model.cuda()
+    GBP = gb.GuidedBackprop(model.alexnet)
+
+    guided_grads = GBP.generate_gradients(image.cuda(), target_class)
+
