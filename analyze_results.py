@@ -104,7 +104,7 @@ if __name__ == "__main__":
     import gradient_visualization.gradcam as gradcam
     from PIL import Image
 
-    from gradient_visualization.misc_functions import preprocess_image
+    from gradient_visualization.misc_functions import preprocess_image, save_gradient_images
 
     model_path = os.path.join("part2_models", "alexnet.tar")
     checkpoint = torch.load(model_path)
@@ -124,4 +124,6 @@ if __name__ == "__main__":
     GBP = gb.GuidedBackprop(model_alexnet)
 
     guided_grads = GBP.generate_gradients(image.cuda(), target_class)
+    file_name_to_export = "alexnet"
+    save_gradient_images(guided_grads,  file_name_to_export + '_Guided_BP_color')
 
