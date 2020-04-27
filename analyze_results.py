@@ -70,7 +70,6 @@ def visualize_weights(model_path, channel=0, visualize_weights_folder_name="visu
     checkpoint = torch.load(model_path)
 
     model_state_dict = checkpoint["model_state_dict"]
-    # weights = model_state_dict["hidden_fc_layer.weight"].data.cpu().numpy()
 
     weights = model_state_dict["hidden_fc_layer.weight"]
     for index, weight in enumerate(weights):
@@ -96,7 +95,13 @@ if __name__ == "__main__":
     # analyze_part(directory="part1_models", write_path="part1_results")
     # analyze_part(directory="part2_models", write_path="part2_results")
 
+    #model_path = os.path.join("part2_models", "model1_part2_800.tar")
+    #visualize_weights(model_path, show=False, visualize_weights_folder_name="weights_800", channel=0)
+    #visualize_weights(model_path, show=False, visualize_weights_folder_name="weights_801", channel=1)
+    #visualize_weights(model_path, show=False, visualize_weights_folder_name="weights_802", channel=2)
+
+    import gradient_visualization.guided_backprop as gb
+
     model_path = os.path.join("part2_models", "model1_part2_800.tar")
-    visualize_weights(model_path, show=False, visualize_weights_folder_name="weights_800", channel=0)
-    visualize_weights(model_path, show=False, visualize_weights_folder_name="weights_801", channel=1)
-    visualize_weights(model_path, show=False, visualize_weights_folder_name="weights_802", channel=2)
+    pre_trained = torch.load(model_path)
+    gb.GuidedBackprop(pre_trained)

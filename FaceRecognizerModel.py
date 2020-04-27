@@ -134,7 +134,6 @@ class FaceRecognizerAlexNetModel(nn.Module):
         params_to_learn = []
         for name, param in self.named_parameters():
             if param.requires_grad:
-                # print (name, param.data) #debuging
                 params_to_learn.append(param)
 
         return params_to_learn
