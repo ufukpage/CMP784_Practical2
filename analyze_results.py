@@ -112,18 +112,18 @@ if __name__ == "__main__":
     model = checkpoint["model"]
     model.load_state_dict(checkpoint['model_state_dict'])
 
-    image = Image.open("dicaprio.jpg").convert('RGB')
+    image = Image.open("didi.jpg").convert('RGB')
 
     image = preprocess_image(image)
     dataset_dir = "dataset_part2/train"
     classes = [d for d in os.listdir(dataset_dir) if os.path.isdir(os.path.join(dataset_dir, d))]
     classes.sort()
-    target_class = classes.index("Leonardo_DiCaprio")
+    target_class = classes.index("Didi_Conn")
 
     model_alexnet = model.alexnet.cuda()
     GBP = gb.GuidedBackprop(model_alexnet)
 
     guided_grads = GBP.generate_gradients(image.cuda(), target_class)
-    file_name_to_export = "dicaprio"
+    file_name_to_export = "didi"
     save_gradient_images(guided_grads,  file_name_to_export + '_Guided_BP_color')
 
