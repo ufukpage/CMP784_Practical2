@@ -104,7 +104,7 @@ if __name__ == "__main__":
     # import gradient_visualization.gradcam as gradcam
     from PIL import Image
 
-    from gradient_visualization.misc_functions import preprocess_image, save_gradient_images
+    from gradient_visualization.misc_functions import preprocess_image, save_gradient_images, convert_to_grayscale, get_positive_negative_saliency
 
     model_path = os.path.join("part2_models", "alexnet.tar")
     checkpoint = torch.load(model_path)
@@ -112,18 +112,26 @@ if __name__ == "__main__":
     model = checkpoint["model"]
     model.load_state_dict(checkpoint['model_state_dict'])
 
-    image = Image.open("didi.jpg").convert('RGB')
+    image = Image.open("statham_ornek.jpg").convert('RGB')
 
     image = preprocess_image(image)
     dataset_dir = "dataset_part2/train"
     classes = [d for d in os.listdir(dataset_dir) if os.path.isdir(os.path.join(dataset_dir, d))]
     classes.sort()
-    target_class = classes.index("Didi_Conn")
+    target_class = classes.index("Jason_Statham")
 
     model_alexnet = model.alexnet.cuda()
     GBP = gb.GuidedBackprop(model_alexnet)
 
     guided_grads = GBP.generate_gradients(image.cuda(), target_class)
-    file_name_to_export = "didi"
+    file_name_to_export = "statham"
     save_gradient_images(guided_grads,  file_name_to_export + '_Guided_BP_color')
+
+    grayscale_guided_grads = convert_to_grayscale(guided_grads)
+    # Save grayscale gradients
+    save_gradient_images(grayscale_guided_grads, file_name_to_export + '_Guided_BP_gray')
+    # Positive and negative saliency maps
+    pos_sal, neg_sal = get_positive_negative_saliency(guided_grads)
+    save_gradient_images(pos_sal, file_name_to_export + '_pos_sal')
+    save_gradient_images(neg_sal, file_name_to_export + '_neg_sal')
 
