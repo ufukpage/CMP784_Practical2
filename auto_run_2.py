@@ -1,11 +1,11 @@
 from run_part2 import run
 
 MODEL_SAVE_PATH = "model1_part2.tar"
-LR = 1e-1
+LR = 9e-1
 Momentum = 0.9
 BATCH_SIZE = 8192
-NUM_EPOCHS = 500
-PATIENCE = 20
+NUM_EPOCHS = 200
+PATIENCE = -1
 ALEXNET_EXTRACTOR = True
 FINETUNE_ALEXNET = True
 VISUALIZE = False
